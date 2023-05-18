@@ -145,7 +145,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/11/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/12/samba%E7%AE%80%E4%BB%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -159,7 +159,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2023/04/11/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
+            <a href="/2023/04/12/samba%E7%AE%80%E4%BB%8B/" class="post-title-link" itemprop="url">samba简介</a>
         </h2>
 
         <div class="post-meta">
@@ -168,10 +168,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-04-11 23:21:21 / 修改时间：21:35:10" itemprop="dateCreated datePublished" datetime="2023-04-11T23:21:21+08:00">2023-04-11</time>
+              <time title="创建时间：2023-04-12 16:10:49" itemprop="dateCreated datePublished" datetime="2023-04-12T16:10:49+08:00">2023-04-12</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-03 11:07:59" itemprop="dateModified" datetime="2023-05-03T11:07:59+08:00">2023-05-03</time>
+              </span>
 
           
 
@@ -184,19 +190,231 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+          <p>Samba是实现了SMB协议的一个免费软件，由服务器及客户端程序构成。SMB（Server Messages Block，信息服务块）是一种在局域网上共享文件和打印机的一种通信协议，它为局域网内的不同计算机之间提供文件及打印机等资源的共享服务。本篇文章就简单介绍一下samba服务器和客户端的搭建。</p>
+<h1 id="Linux环境"><a href="#Linux环境" class="headerlink" title="Linux环境"></a>Linux环境</h1><h2 id="安装服务"><a href="#安装服务" class="headerlink" title="安装服务"></a>安装服务</h2><p>Ubuntu: <code>sudo apt-get install samba samba-common</code><br>Centos: <code>yum install samba -y</code></p>
+<h2 id="添加samba用户和配置密码"><a href="#添加samba用户和配置密码" class="headerlink" title="添加samba用户和配置密码"></a>添加samba用户和配置密码</h2><p>通过<code>sudo smbpasswd -a username</code>添加samba用户，并且设置密码。其中username必须是系统中已经存在的用户。如果不执行此命令，该用户则不算是samba用户。如果该用户已经是samba用户了，通过该条指令即可修改samba访问的密码。这里设置的密码需要记住，后面客户端访问时需要使用此密码。</p>
+<h2 id="配置服务"><a href="#配置服务" class="headerlink" title="配置服务"></a>配置服务</h2><p>打开 /etc/samba/smb.conf: <code>vim /etc/samba/smb.conf</code>, 在文件最后追加以下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[label]</span><br><span class="line">   path=/home/test/</span><br><span class="line">   public=no</span><br><span class="line">   read only=no</span><br><span class="line">   writable=yes</span><br><span class="line">   valid users=username</span><br><span class="line">   browsable=yes</span><br><span class="line">   create mask = 0664</span><br></pre></td></tr></table></figure>
+<p>部分参数的含义如下：</p>
+<ul>
+<li>label：这个label就是其它机器需要访问这个samba服务时的一个标记，随便起都可以。</li>
+<li>path：指示需要被共享的文件夹。</li>
+<li>public：是否公开。如果公开，局域网内的其它设备可在网上邻居发现这个文件夹，否则只能通过ip地址+label来访问。</li>
+<li>read only：分享的文件是否为只读权限。</li>
+<li>writable：目录下是否可以写入。</li>
+<li>valid users：表示哪些用户可以访问到这个文件夹，这里要填写真实的系统用户名。</li>
+</ul>
+<p>我们的计算机默认是VeriSilicon域，因此我们将工作组定义为VeriSilicon。我们公司的计算机现在默认使用NTLM级别的LAN Manager进行身份验证，但是Samba服务器版本4.5以上的NTLM身份验证参数的默认值是“no”。可能导致用户名密码验证错误。因此，在global下，我们修改和配置以下参数。</p>
+<h2 id="重启服务"><a href="#重启服务" class="headerlink" title="重启服务"></a>重启服务</h2><p>每次修改了配置文件，需要重启服务才能使配置生效。通过命令：<code>sudo service smbd restart</code>来重启samba的服务。</p>
+<h2 id="samba客户端连接-挂载服务"><a href="#samba客户端连接-挂载服务" class="headerlink" title="samba客户端连接/挂载服务"></a>samba客户端连接/挂载服务</h2><p>连接需要借助samba的客户端smbclient，安装：<br>Ubuntu: <code>sudo apt install smbclient</code><br>Centos: <code>sudo yum install samba-client</code></p>
+<p>安装完成后，通过以下命令访问samba服务器共享的资源：<br><code>smbclient //192.168.121.118/label -U zysgdsg</code><br>其中，“192.168.121.118”是搭建samba服务器的IP地址，label是samba服务器配置的标记，zysgdsg是上面创建的samba用户。键入后回车，会提示输入密码，密码就是上面设置的samba用户对应的密码。看到以下提示符，代表连接成功：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Try &quot;help&quot; to get a list of possible commands.</span><br><span class="line">smb: \&gt;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>如果需要将共享文件挂载在当前系统的目录下，如同访问本系统下的文件，则需要借助cifs-utils工具，安装命令：<br>Ubuntu: <code>sudo apt install cifs-utils</code><br>Centos: <code>sudo yum install cifs-utils</code></p>
+<p>通过如下命令既可以将服务器共享文件挂载在当前系统目录：<br><code>sudo mount -t cifs //192.168.121.118/label /mnt/smbmount -o username=zysgdsg,password=123123,vers=1.0</code><br>其中，“192.168.121.118”是搭建samba服务器的IP地址，label是samba服务器配置的标记，/mnt/smbmount是本系统上的一个空白目录（建议新建一个示例的目录，通过文件夹名称可以看出这个目录下是什么内容），zysgdsg是上面创建的samba用户。123123就是上面设置的samba用户对应的密码。<br>挂载成功后，就可以在/mnt/smbmount/下看到共享的文件了。</p>
+<h1 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h1><h2 id="服务开启"><a href="#服务开启" class="headerlink" title="服务开启"></a>服务开启</h2><p>Windows下的samba也是系统自带的功能，但是windows默认时将其关闭的，我们打开它即可。它的打开位置为：<br><code>控制面板-&gt;程序-&gt;启用或关闭Windows功能</code><br>在弹出的窗口中，找到以下内容将其全部勾选：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SMB 1.0/CIFS 文件共享支持</span><br><span class="line">   SMB 1.0/CIFS 服务器</span><br><span class="line">   SMB 1.0/CIFS 客户端</span><br><span class="line">   SMB 1.0/CIFS 自动删除</span><br><span class="line">SMB 直通</span><br></pre></td></tr></table></figure>
+<p>最后点击确定，系统提示可能需要重启，点击确定重启系统。</p>
+<h2 id="开启网络共享"><a href="#开启网络共享" class="headerlink" title="开启网络共享"></a>开启网络共享</h2><p>通过如下路径打开设置页面：<br><code>控制面板 -&gt;网络和 Internet -&gt; 网络和共享中心-&gt;(在左侧)更改高级共享设置</code><br>勾选以下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">网络发现下的：</span><br><span class="line">启动网络发现</span><br><span class="line">   启动网络连接设备的自动设置</span><br><span class="line">文件和打印机共享下的：</span><br><span class="line">启动文件和打印机共享</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<h2 id="添加samba账户"><a href="#添加samba账户" class="headerlink" title="添加samba账户"></a>添加samba账户</h2><p>右击 此电脑-&gt;管理-&gt;本地用户和组-&gt;右击 用户-&gt;新用户<br>在新弹出的窗口中设置用户名，密码和确认密码。勾选上用户不能更改密码，密码永不过期。最后点击创建即可。</p>
+<h2 id="设置samba共享文件夹"><a href="#设置samba共享文件夹" class="headerlink" title="设置samba共享文件夹"></a>设置samba共享文件夹</h2><p>步骤如下：</p>
+<ol>
+<li>右击 此电脑-&gt;管理-&gt;共享文件夹-&gt;右击 共享-&gt;新建共享</li>
+<li>选择要的文件夹的路径</li>
+<li>设置共享的名称（访问时需要使用此名称连接）</li>
+<li>设置权限，选择自定义。进来后点击里面默认的everyone选项，选择删除。</li>
+<li>添加刚刚新建的samba账户，权限根据自己的需求来勾选。最后点击确定。</li>
+</ol>
+<p>至此，samba共享文件夹建立完成。</p>
+<h2 id="客户端连接-挂载服务"><a href="#客户端连接-挂载服务" class="headerlink" title="客户端连接/挂载服务"></a>客户端连接/挂载服务</h2><p>在局域网的另外一台PC上，双击此电脑，在地址栏键入网址<code>\\192.168.2.100\smb</code>访问（其中192.168.2.100是搭建samba服务器主机的IP地址，smb是访问的label），系统会弹出输入账号密码的对话框，输入上面创建的samba用户的用户名和密码即可成功访问。<br>但是这里有特殊情况会发生，系统没有弹出输入账号密码的提示，取而代之的是没有权限的提示，这可能与系统设置有关。没关系，有解决方案，既然系统不弹出，那么我们就提前准备好用户名密码，供访问时使用，操作步骤如下：<br><code>控制面板-&gt;用户帐户-&gt;凭据管理器-&gt;添加Windows凭据</code><br>在新弹出的页面上，我们分别填入：</p>
+<ul>
+<li>Internet地址或网络地址： <code>\\192.168.2.100\smb</code>（其中192.168.2.100是搭建samba服务器主机的IP地址，smb是访问的label）。</li>
+<li>用户名：面创建的samba用户的用户名</li>
+<li>密码：上面创建的samba用户的密码</li>
+</ul>
+<p>点击确定。再通过双击此电脑，在地址栏键入网址<code>\\192.168.2.100\smb</code>访问（其中192.168.2.100是搭建samba服务器主机的IP地址，smb是访问的label），就可以免密码直接访问到共享文件夹。</p>
+<p>还有一种方案，可以将共享文件夹虚拟成一块磁盘，挂载在此电脑上。操作步骤如下：<br><code>打开 此电脑-&gt;右击 （在左侧栏）网络-&gt;映射网络驱动器(N)...</code></p>
+<ul>
+<li>在弹出的窗口中选择驱动器盘符，可以选择靠后的盘符（例如Z），以免影响移动硬盘或者U盘的盘符。</li>
+<li>键入文件夹，填写：<code>\\192.168.2.100\smb</code>, （其中192.168.2.100是搭建samba服务器主机的IP地址，smb是访问的label）。</li>
+<li>勾选上登录时重新连接(R)并且点击完成。</li>
+<li>在弹出的对话框中分别键入上面创建的samba用户的用户名和密码，勾选记住我的凭据，点击确定。</li>
+</ul>
+<p>若以上操作无误，那么就会在此电脑中看到多出了一个Z（上面选择的盘符）盘。在Z盘中就是共享文件夹内的内容了。</p>
+<h2 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h2><p>有人说win10的samba比较慢，是因为win10 系统设置的原因。不光samba，连ftp也慢。可以用命令修改。命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">netsh int tcp set global autotuninglevel=restricted</span><br><span class="line">netsh interface tcp set heuristics disabled</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<h1 id="移动端和TV端"><a href="#移动端和TV端" class="headerlink" title="移动端和TV端"></a>移动端和TV端</h1><p>首先，要强调的一点是，samba是跨平台的，无论samba的服务器是搭建在Ubuntu还是Centos抑或是Windows，在其他的平台都可以通过samba的客户端进行访问或者挂载。</p>
+<p>还要注意的是，客户端必须和服务器在同一局域网内，这个非常重要，之所以在这里提出来是需要注意，在路由器的连接方式不同的影响下，有可能造成手机连接的WIFI和电脑的网线不在同一局域网下，就无法正常访问。判断是否为同一局域网的方式也很简单，分别查看两个端的IP地址，如果IP地址的前三个数字都是一致的，那么就代表在同一网络下，如果只有前两位或者更少的数字相同，那就不在同一局域网。</p>
+<p>如果需要在移动端和TV端能够高效的访问，建议samba服务选择public，这样访问起来很方便，如果是在比较私密的网络环境内。</p>
+<h2 id="手机端"><a href="#手机端" class="headerlink" title="手机端"></a>手机端</h2><p>一般手机自带的文件管理器就包含了类似网络邻居的功能，我们进去后就可以看到我们共享的文件夹了，选择之后会提示输入用户名密码，就匹配samba用户的用户名密码即可。如果我们没有启用public，那么稍微麻烦一些，点击添加设备，输入主机的IP地址，输入用户名密码，勾选自动登录，最后点击确定，就可以看到共享的文件了。</p>
+<p>如果手机的文件管理没有网络邻居的功能，那么在手机上下载一个es文件浏览器，就可以连接了，连接方式与上面大同小异。</p>
+<h2 id="TV端"><a href="#TV端" class="headerlink" title="TV端"></a>TV端</h2><p>TV端一般连接上无非就是看视频等操作了，一般TV操作系统带的文件管理器也是可以看到类似网络的选项的，操作方式也是类似的。如果没有，也可以借助es文件浏览器，或者当贝播放器，kodi播放器等支持局域网播放的软件。连接方式和手机的方式几乎是一样。</p>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/12/markdown%E8%AF%AD%E6%B3%95%E7%AE%80%E4%BB%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yang Zhao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/12/markdown%E8%AF%AD%E6%B3%95%E7%AE%80%E4%BB%8B/" class="post-title-link" itemprop="url">markdown语法简介</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-04-12 10:25:27" itemprop="dateCreated datePublished" datetime="2023-04-12T10:25:27+08:00">2023-04-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-03 11:07:59" itemprop="dateModified" datetime="2023-05-03T11:07:59+08:00">2023-05-03</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Markdown是一种纯文本格式的标记语言。通过简单的标记语法，它可以使普通文本内容具有一定的格式。Markdown支持的语法也不少，博主比较青睐于简单的描述，使用的其实并不多。主要用到的就是： 标题，本地图片， 超链接，列表，代码。</p>
+<h1 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h1><p>标题的语法很简单，通过#加空格再加标题的名称即可表达：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 这个代表一级标题</span><br><span class="line">## 这个代表二级标题</span><br><span class="line">### 这个代表三级标题</span><br><span class="line">#### 这个代表四级标题</span><br><span class="line">##### 这个代表五级标题</span><br><span class="line">###### 这个代表六级标题</span><br></pre></td></tr></table></figure>
+<p>文章一般使用到三级标题阅读起来是比较舒适的。</p>
+<h1 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h1><h2 id="网图"><a href="#网图" class="headerlink" title="网图"></a>网图</h2><p>语法：<br><code>![alt 属性文本](图片地址 “图片title”)</code><br>alt就是显示在图片下面的文字，相当于对图片内容的解释。（注意：Hexo的一些themes是不支持显示标题的，例如正在使用的next主题就不支持。）<br>图片title是图片的标题，当鼠标移到图片上时显示的内容。title可加可不加。<br>示例：<br><code>![这是标题 text](https://img1.baidu.com/it/u=413643897,2296924942&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG?w=800&amp;h=500) &quot;这是鼠标悬停时显示的信息&quot;)</code><br>效果：<br><img src="https://img1.baidu.com/it/u=413643897,2296924942&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=500" alt="这是标题 text" title="这是鼠标悬停时显示的信息"></p>
+<h2 id="本地图片"><a href="#本地图片" class="headerlink" title="本地图片"></a>本地图片</h2><p>这个方法是hexo提供的，需要在项目配置中打开。如果打开了此配置，那么在新建博客时，除了会生成“博客名.md”的文件外，还会生成一个同名目录，图片需要放在此目录中方可引用。<br>示例：<br><code>&#123;% asset_img test.jpg 这是鼠标悬停时显示的信息 %&#125;</code></p>
+<img src="/2023/04/12/markdown%E8%AF%AD%E6%B3%95%E7%AE%80%E4%BB%8B/test.jpg" class="" title="这是鼠标悬停时显示的信息">
+<p>同样的，next主题不支持显示图片标题。</p>
+<h1 id="超链接"><a href="#超链接" class="headerlink" title="超链接"></a>超链接</h1><p>语法：<code>[超链接名](超链接地址 &quot;超链接title&quot;)</code><br>示例：<code>[百度传送门](http://baidu.com)</code><br>效果：<a target="_blank" rel="noopener" href="http://baidu.com/">百度传送门</a></p>
+<h1 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h1><h2 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h2><p>语法：通过-+*任意一个符合加空格加列表内容即可显示。<br>示例：<code>- 列表内容</code><br>效果:</p>
+<ul>
+<li>列表内容</li>
+</ul>
+<p>示例：<code>+ 列表内容</code><br>效果:</p>
+<ul>
+<li>列表内容</li>
+</ul>
+<p>示例：<code>* 列表内容</code><br>效果:</p>
+<ul>
+<li>列表内容</li>
+</ul>
+<h2 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h2><p>语法：通过数字加空格加内容来表示。<br>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 列表1内容</span><br><span class="line">2. 列表2内容</span><br><span class="line">3. 列表3内容</span><br></pre></td></tr></table></figure>
+<p>效果：</p>
+<ol>
+<li>列表1内容</li>
+<li>列表2内容</li>
+<li>列表3内容</li>
+</ol>
+<h2 id="列表嵌套"><a href="#列表嵌套" class="headerlink" title="列表嵌套"></a>列表嵌套</h2><p>语法：在下一级列表前加三个空格即可。<br>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- 一级列表内容，用任一种列表符号，这里用了第一种无序符合</span><br><span class="line">   - 二级列表内容，用任一种列表符号，这里用了第二种无序符合</span><br><span class="line">      1. 三级列表内容，用任一种列表符号，这里用了有序符合</span><br></pre></td></tr></table></figure>
+<p>效果：</p>
+<ul>
+<li>一级列表内容，用任一种列表符号，这里用了第一种无序符合<ul>
+<li>二级列表内容，用任一种列表符号，这里用了第二种无序符合<ol>
+<li>三级列表内容，用任一种列表符号，这里用了有序符合</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><h2 id="单行代码"><a href="#单行代码" class="headerlink" title="单行代码"></a>单行代码</h2><p>语法：用反引号对包起来（一般是Tab键上方，Esc键下方的按键，注意是英文输入法）<br>示例：<code>` 代码内容 `</code><br>效果：<code>代码内容</code></p>
+<h2 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h2><p>语法：用三个反引号对包起来<br>示例：（不好通过文字表示，用图片展示示例）</p>
+<img src="/2023/04/12/markdown%E8%AF%AD%E6%B3%95%E7%AE%80%E4%BB%8B/%E4%BB%A3%E7%A0%81%E5%9D%97%E7%A4%BA%E4%BE%8B.png" class="">
+<p>效果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">代码行1...</span><br><span class="line">代码行2...</span><br><span class="line">代码行3...</span><br></pre></td></tr></table></figure>
+
+<h1 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h1><h2 id="加粗"><a href="#加粗" class="headerlink" title="加粗"></a>加粗</h2><p>要加粗的文字左右分别用两个*号包起来<br>示例： <code>**这是加粗的文字**</code><br>效果： <strong>这是加粗的文字</strong></p>
+<h2 id="斜体"><a href="#斜体" class="headerlink" title="斜体"></a>斜体</h2><p>要倾斜的文字左右分别用一个*号包起来<br>示例： <code>*这是倾斜的文字*</code><br>效果： <em>这是倾斜的文字</em></p>
+<h2 id="斜体并且加粗"><a href="#斜体并且加粗" class="headerlink" title="斜体并且加粗"></a>斜体并且加粗</h2><p>要斜体并且加粗的文字左右分别用三个*号包起来<br>示例： <code>***这是斜体加粗的文字***</code><br>效果： <em><strong>这是斜体加粗的文字</strong></em></p>
+<h2 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h2><p>要加删除线的文字左右分别用两个~号包起来<br>示例： <code>~~这是加删除线的文字~~</code><br>效果： <del>这是加删除线的文字</del></p>
+<h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><p>在引用的文字前加&gt;即可。引用也可以嵌套，如加两个&gt;&gt;三个&gt;&gt;&gt;<br>n个…<br>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;这是引用的内容</span><br><span class="line">&gt;&gt;这是引用的内容</span><br><span class="line">&gt;&gt;&gt;这是引用的内容</span><br></pre></td></tr></table></figure>
+<p>效果：</p>
+<blockquote>
+<p>这是引用的内容</p>
+<blockquote>
+<p>这是引用的内容</p>
+<blockquote>
+<p>这是引用的内容</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<h1 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h1><p>三个或者三个以上的 - 或者 * 都可以。<br>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">----</span><br><span class="line">***</span><br><span class="line">****</span><br></pre></td></tr></table></figure>
+<p>效果：</p>
+<hr>
+<hr>
+<hr>
+<hr>
+<h1 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h1><p>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">|表头|表头|表头|</span><br><span class="line">|---|:--:|---:|</span><br><span class="line">|内容|内容|内容|</span><br><span class="line">|内容|内容|内容|</span><br><span class="line"></span><br><span class="line">第二行分割表头和内容。</span><br><span class="line">- 有一个就行，为了对齐，多加了几个</span><br><span class="line">文字默认居左</span><br><span class="line">-两边加：表示文字居中</span><br><span class="line">-右边加：表示文字居右</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">|姓名|性别|工资|</span><br><span class="line">|--|:--:|--:|</span><br><span class="line">|马云|男|800元/月|</span><br><span class="line">|董小姐|女|799元/月|</span><br><span class="line">|博主|男|200万元/月|</span><br></pre></td></tr></table></figure>
+<p>效果：</p>
+<table>
+<thead>
+<tr>
+<th>姓名</th>
+<th align="center">性别</th>
+<th align="right">工资</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>马云</td>
+<td align="center">男</td>
+<td align="right">800元/月</td>
+</tr>
+<tr>
+<td>董小姐</td>
+<td align="center">女</td>
+<td align="right">799元/月</td>
+</tr>
+<tr>
+<td>博主</td>
+<td align="center">男</td>
+<td align="right">200万元/月</td>
+</tr>
+</tbody></table>
 
       
     </div>
@@ -247,7 +465,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-04-11 21:35:10" itemprop="dateModified" datetime="2023-04-11T21:35:10+08:00">2023-04-11</time>
+                <time title="修改时间：2023-05-18 23:44:10" itemprop="dateModified" datetime="2023-05-18T23:44:10+08:00">2023-05-18</time>
               </span>
 
           
@@ -261,12 +479,36 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="准备环境"><a href="#准备环境" class="headerlink" title="准备环境"></a>准备环境</h1><h2 id="谷歌账号"><a href="#谷歌账号" class="headerlink" title="谷歌账号"></a>谷歌账号</h2><p>申请谷歌的VPS，谷歌账号是必须的。新的谷歌账号有300美刀的免费试用金（3个月内有效）。谷歌账号的申请方式可以参考文章：<a target="_blank" rel="noopener" href="https://zy953870777.github.io/2023/04/10/%E5%A6%82%E4%BD%95%E7%94%B3%E8%AF%B7%E8%B0%B7%E6%AD%8C%E8%B4%A6%E5%8F%B7/">如何申请谷歌账号</a>。</p>
+          <h1 id="准备工具"><a href="#准备工具" class="headerlink" title="准备工具"></a>准备工具</h1><h2 id="谷歌账号"><a href="#谷歌账号" class="headerlink" title="谷歌账号"></a>谷歌账号</h2><p>新的谷歌账号有300美刀的免费试用金（3个月内有效），到期后重新申请新的谷歌账号，继续白嫖。如果已经有谷歌账户，跳过这一步。<br>申请谷歌账号需要准备的工具：</p>
+<ul>
+<li>一个可以接收邮件的邮箱。</li>
+<li>一台可以接收手机验证码的手机。</li>
+<li>谷歌浏览器。</li>
+</ul>
+<h3 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h3><ol>
+<li>打开谷歌浏览器，在设置中选择语言选项，添加“英语－美国”选项，设置谷歌浏览器以此语言显示，然后删除中文语言。</li>
+<li>使用快捷键（Ctrl + Shift + N）或者手动打开无痕模式。在无痕模式下进入此链接：<br><code>https://accounts.google.com/signup/v2/webcreateaccount?flowName=GlifWebSignIn&amp;flowEntry=SignUp</code></li>
+<li>根据操作步骤，依次输入姓、名、邮箱地址（切换到使用个人邮箱），密码等，点击下一步。</li>
+<li>等待谷歌发送验证码到你的邮箱，收到后输入验证码，下一步。</li>
+<li>电话选择中国（+86），并且输入你的手机号，下一步，等待验证码。</li>
+<li>输入手机上收到的验证码，点击下一步，设置基本的账号信息，选填项建议不填。完成。</li>
+</ol>
 <h2 id="信用卡"><a href="#信用卡" class="headerlink" title="信用卡"></a>信用卡</h2><p>VPS虽然是免费申请并且有试用金，但是在申请流程中需要绑定信用卡才可以继续，因此还是需要一张国际信用卡。本人使用的是招商银行的visa信用卡，听说并不是所有的visa信用卡都可以申请成功，所以需要新办卡的还是建议申请招商银行的visa。</p>
 <h2 id="地图软件"><a href="#地图软件" class="headerlink" title="地图软件"></a>地图软件</h2><p>由于注册过程中需要输入地址和邮编，系统还会做校验，所以还是按照正确的地址和邮编操作流程较好。在线的百度地图或者高德地图都可以。</p>
 <h2 id="FQ工具"><a href="#FQ工具" class="headerlink" title="FQ工具"></a>FQ工具</h2><p>谷歌VPS的官方网站是被HX了的，因此正常网络是无法访问的，需要特殊条件才可以访问得到。这个问题请自行研究，免费的工具拿来临时使用也不是不可以。</p>
 <h1 id="申请步骤"><a href="#申请步骤" class="headerlink" title="申请步骤"></a>申请步骤</h1><p>在上述工具都准备就绪之后，就可以按照下面的步骤申请操作了。</p>
-
+<ol>
+<li>在任一浏览器打开<a target="_blank" rel="noopener" href="https://console.cloud.google.com/">谷歌云官网</a>。</li>
+<li>登录谷歌账号，如果本身有谷歌账号已登录，则需要先退出当前账号，重新登录要用来新注册的谷歌账号。</li>
+<li>对于新账号，页面顶部会显示以下信息：<br><code>获享 $300 赠金，开始免费试用。请放心，如果您的赠金用尽，我们不会向您收取费用。 [忽略] [激活]</code><br>点击激活选项。</li>
+<li>国家可以选择美国，组织选择其他，勾选同意条款并点击继续。</li>
+<li>点击创建新的付款材料。组织选择个人。地址信息需要打开地图，随便定位到美国某个地点，查看具体的地址信息和邮编地址。也可以参考下面填写：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">街道：旧金山</span><br><span class="line">市区：旧金山</span><br><span class="line">州：California</span><br><span class="line">邮编：68352</span><br></pre></td></tr></table></figure></li>
+<li>添加付款方式-&gt;信用卡。分别填写卡号、卡到期日期（月/年）、安全码后三位。开始免费试用（可能会弹出调查问卷，随便填写即可）。</li>
+</ol>
+<p>至此，谷歌VPS申请成功，并且激活了300美刀的试用金。</p>
+<h1 id="创建云服务器"><a href="#创建云服务器" class="headerlink" title="创建云服务器"></a>创建云服务器</h1><p>apt update -y<br>apt install -y curl<br>source &lt;(curl -sL <a target="_blank" rel="noopener" href="https://git.io/trojan-install">https://git.io/trojan-install</a>)<br>选择1Let’s Encrypt 证书<br>选择1 安装docker版mysql(mariadb)<br>vim /usr/local/etc/trojan/config.json<br> “websocket”: {<br>        “enabled”: true,<br>        “path”: “/xyz123/“,<br>        “host”: “你的域名”<br>    },<br>    “mux”: {<br>        “enabled”: true,<br>        “concurrency”: 8,<br>        “idle_timeout”: 60<br>    }</p>
+<p>iptables -t nat -A PREROUTING -p tcp –dport 40000:50000 -j REDIRECT –to-ports 443<br>BBR 加速<br>wget -N –no-check-certificate “<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/chiakge/Linux-NetSpeed/master/tcp.sh&quot;">https://raw.githubusercontent.com/chiakge/Linux-NetSpeed/master/tcp.sh&quot;</a> &amp;&amp; chmod +x tcp.sh &amp;&amp; ./tcp.sh</p>
+<h1 id="谷歌云迁移"><a href="#谷歌云迁移" class="headerlink" title="谷歌云迁移"></a>谷歌云迁移</h1>
       
     </div>
 
@@ -351,71 +593,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/10/%E5%A6%82%E4%BD%95%E7%94%B3%E8%AF%B7%E8%B0%B7%E6%AD%8C%E8%B4%A6%E5%8F%B7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Yang Zhao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/04/10/%E5%A6%82%E4%BD%95%E7%94%B3%E8%AF%B7%E8%B0%B7%E6%AD%8C%E8%B4%A6%E5%8F%B7/" class="post-title-link" itemprop="url">如何申请谷歌账号</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-04-10 11:20:11" itemprop="dateCreated datePublished" datetime="2023-04-10T11:20:11+08:00">2023-04-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-04-11 21:35:10" itemprop="dateModified" datetime="2023-04-11T21:35:10+08:00">2023-04-11</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="准备工具"><a href="#准备工具" class="headerlink" title="准备工具"></a>准备工具</h1><p>要申请谷歌账号，需要准备一个可以接受邮件的邮箱。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/07/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E6%AD%A4%E9%A1%B9%E7%9B%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -447,7 +624,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-04-11 23:26:06" itemprop="dateModified" datetime="2023-04-11T23:26:06+08:00">2023-04-11</time>
+                <time title="修改时间：2023-05-03 11:07:59" itemprop="dateModified" datetime="2023-05-03T11:07:59+08:00">2023-05-03</time>
               </span>
 
           
@@ -483,14 +660,11 @@
 
 <h1 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h1><h2 id="添加文章"><a href="#添加文章" class="headerlink" title="添加文章"></a>添加文章</h2><p>还是通过git bash输入以下命令来创建新的文章。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new post 文章名称</span><br></pre></td></tr></table></figure>
-<p>执行完成后在source_posts目录下生成了一个md文件和一个同名的资源目录(用于存放图片)</p>
-<h2 id="添加文字"><a href="#添加文字" class="headerlink" title="添加文字"></a>添加文字</h2><p>在md文件中输入文章内容，文章支持markdown语法，语法很简单，自行百度。</p>
-<h2 id="添加图片"><a href="#添加图片" class="headerlink" title="添加图片"></a>添加图片</h2><p>在资源目录测试文章中放一张图片 test.jpg，在文中使用如下语句来插入图片</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img test.jpg slug [这个是我引用的test.jpg] %&#125;</span><br></pre></td></tr></table></figure>
-<img src="/2023/04/07/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E6%AD%A4%E9%A1%B9%E7%9B%AE/test.jpg" class="" title="slug [这个是我引用的test.jpg]">
+<p>执行完成后在source_posts目录下生成了一个md文件和一个同名的资源目录(用于存放图片)。md文件中已经自动建立好了Hexo可识别的文章标题，只要在下面添加文章的内容即可。</p>
+<h2 id="添加内容"><a href="#添加内容" class="headerlink" title="添加内容"></a>添加内容</h2><p>在md文件中输入文章内容，文章支持markdown语法，语法很简单，可参考<a target="_blank" rel="noopener" href="https://zy953870777.github.io/2023/04/12/markdown%E8%AF%AD%E6%B3%95%E7%AE%80%E4%BB%8B/">markdown语法简介</a>。</p>
 <p>再次尝试本地启动</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo g -d &amp; hexo s</span><br></pre></td></tr></table></figure>
-
+<p>就可以看到自己添加的文章了。</p>
 <h1 id="推送至github"><a href="#推送至github" class="headerlink" title="推送至github"></a>推送至github</h1><h2 id="git-配置"><a href="#git-配置" class="headerlink" title="git 配置"></a>git 配置</h2><p>如果之前没有使用过git，则需要配置一下本地账户：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;用户名&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;邮箱地址&quot;</span></span><br></pre></td></tr></table></figure>
 <p>按照自己的配置替换用户名和邮箱地址。</p>
@@ -509,12 +683,108 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo deploy</span><br></pre></td></tr></table></figure>
 <p>最后在项目的设置里面往下滑找到pages更改为master分支点击save保存，库名就是博客网址了: <a target="_blank" rel="noopener" href="https://xxx.github.io/">https://xxx.github.io/</a></p>
 <h1 id="数据备份与多客户端"><a href="#数据备份与多客户端" class="headerlink" title="数据备份与多客户端"></a>数据备份与多客户端</h1><p>做好数据备份是非常重要的，不要在数据丢失的时候才发现它的重要性。</p>
-<h2 id="代码上传"><a href="#代码上传" class="headerlink" title="代码上传"></a>代码上传</h2><p>作为一个博客项目，通过git来管理是再好不过了，博主使用gitee来存储和同步数据。将项目整个上传到gitee的仓库上，就可以在多端进行下载和同步了。具体操作方法自行查询，教程很多。在上传的时候注意themes/next目录下的.git文件夹需要被删除掉，否则会导致上传不成功。</p>
-<h2 id="代码下载"><a href="#代码下载" class="headerlink" title="代码下载"></a>代码下载</h2><p>在不同的设备平台上，想要新建或者编辑文章，就可以通过gitee把项目clone下来。值得注意的是，新的PC设备也是需要安装环境的，git是肯定要的（同样需要配置github &amp; gitee的ssh-key），node.js等。</p>
+<h2 id="代码上传"><a href="#代码上传" class="headerlink" title="代码上传"></a>代码上传</h2><p>作为一个博客项目，通过git来管理是再好不过了，博主使用gitee来存储和同步数据。将项目整个上传到gitee的仓库上，就可以在多端进行下载和同步了。具体操作步骤如下：</p>
+<ol>
+<li>可以在gitee上，创建一个私有的空仓库，初始化readme等操作。再</li>
+<li>在本地将空的仓库clone下来。</li>
+<li>添加.gitignore文件（文件内容在下面附上），并且要运行 <code>git add .gitignore &amp;&amp; git commit -m &quot;add ignore file&quot;</code> 使起其效。</li>
+<li>将整个项目文件拷贝到clone的git工程中。注意themes/next目录下的.git文件夹需要被删除掉，否则会导致上传不成功。</li>
+<li>运行 <code>git add -A &amp;&amp; git commit -m &quot;Fisrt add project&quot; &amp;&amp; git push origin</code></li>
+</ol>
+<p>至此，项目代码已经成功上传到gitee远程仓库了。.gitignore的作用就是将不想关的文件和没必要上传的编译输出文件屏蔽掉，我用的.gitignore的内容如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.DS_Store</span><br><span class="line">Thumbs.db</span><br><span class="line">db.json</span><br><span class="line">*.<span class="built_in">log</span></span><br><span class="line">node_modules/</span><br><span class="line">public/</span><br><span class="line">.deploy*/</span><br><span class="line">*.bat</span><br></pre></td></tr></table></figure>
+<p>其中，*.bat是我自己做的一些批处理命令（后面会粘出来），由于每台电脑上对应的bat会有差异，所以不提交到仓库上，以免相互覆盖，影响正常使用。</p>
+<h2 id="代码下载"><a href="#代码下载" class="headerlink" title="代码下载"></a>代码下载</h2><p>在不同的设备平台上，想要新建或者编辑文章，就可以通过gitee把项目clone下来。值得注意的是，新的PC设备也是需要安装环境的，git是肯定要的（同样需要配置github &amp; gitee的ssh-key），node.js, hexo插件等。环境准备好之后就将代码clone下来，进入到项目目录，注意需要先执行 <code>npm install</code> 来安装插件，否则项目会启动失败并且无法推送到github。</p>
 <h2 id="多端编辑"><a href="#多端编辑" class="headerlink" title="多端编辑"></a>多端编辑</h2><p>由于使用github来运行项目，并且通过gitee同步项目，因此每次修改都需要进行git pull, add, commit, push等一系列操作。虽然步骤繁琐，但不难看出都是重复度极高的操作，因此通过简单脚本即可搞定，附上我在使用的bat文件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="built_in">echo</span> ----------------git pull----------------</span><br><span class="line">call git pull</span><br><span class="line"><span class="built_in">echo</span> ----------------files list----------------</span><br><span class="line"><span class="keyword">for</span> /r <span class="string">&quot;source\_posts\&quot; %%a in (*.md) do (</span></span><br><span class="line"><span class="string">    echo %%~na</span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">set /p var=please enter the name: </span></span><br><span class="line"><span class="string">set filename=source\_posts\%var%.md</span></span><br><span class="line"><span class="string">if exist %filename% (</span></span><br><span class="line"><span class="string">echo ----------------file exist----------------</span></span><br><span class="line"><span class="string">) else (</span></span><br><span class="line"><span class="string">echo ----------------file doesn&#x27;t exist----------------</span></span><br><span class="line"><span class="string">echo ----------------create %var%----------------</span></span><br><span class="line"><span class="string">call hexo new %var%</span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">echo ----------------open the file----------------</span></span><br><span class="line"><span class="string">call start D:\&quot;Program Files&quot;</span>\&quot;Microsoft VS Code<span class="string">&quot;\Code source\_posts\%var%.md</span></span><br><span class="line"><span class="string">set /p res=push to github? y/n: </span></span><br><span class="line"><span class="string">if %res% == y (</span></span><br><span class="line"><span class="string">echo ----------------push to github----------------</span></span><br><span class="line"><span class="string">call hexo clean</span></span><br><span class="line"><span class="string">call hexo deploy</span></span><br><span class="line"><span class="string">echo ----------------save to remote----------------</span></span><br><span class="line"><span class="string">call git add -A</span></span><br><span class="line"><span class="string">call git commit -m &quot;</span>add %var%<span class="string">&quot;</span></span><br><span class="line"><span class="string">call git push</span></span><br><span class="line"><span class="string">) else (</span></span><br><span class="line"><span class="string">echo ---</span></span><br><span class="line"><span class="string">set /p res=save to remote? y/n: </span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string">if %res% == y (</span></span><br><span class="line"><span class="string">echo ----------------save to remote----------------</span></span><br><span class="line"><span class="string">call git add -A</span></span><br><span class="line"><span class="string">call git commit -m &quot;</span>add %var%<span class="string">&quot;</span></span><br><span class="line"><span class="string">call git push</span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">set /p var=enter any key to stop:</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="built_in">echo</span> ----------------git pull----------------</span><br><span class="line">call git pull</span><br><span class="line"><span class="built_in">echo</span> ----------------files list----------------</span><br><span class="line"><span class="keyword">for</span> /r <span class="string">&quot;source\_posts\&quot; %%a in (*.md) do (</span></span><br><span class="line"><span class="string">	echo %%~na</span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">set /p var=please enter the name: </span></span><br><span class="line"><span class="string">set filename=source\_posts\%var%.md</span></span><br><span class="line"><span class="string">if exist %filename% (</span></span><br><span class="line"><span class="string">	echo ----------------file exist----------------</span></span><br><span class="line"><span class="string">) else (</span></span><br><span class="line"><span class="string">	echo ----------------file doesn&#x27;t exist----------------</span></span><br><span class="line"><span class="string">	echo ----------------create %var%----------------</span></span><br><span class="line"><span class="string">	call hexo new %var%</span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">echo ----------------open the file----------------</span></span><br><span class="line"><span class="string">call start D:\&quot;Program Files&quot;</span>\&quot;Microsoft VS Code<span class="string">&quot;\Code source\_posts\%var%.md</span></span><br><span class="line"><span class="string">set /p res=push to github? y/n: </span></span><br><span class="line"><span class="string">if %res% == y (</span></span><br><span class="line"><span class="string">	echo ----------------push to github----------------</span></span><br><span class="line"><span class="string">	call hexo clean</span></span><br><span class="line"><span class="string">	call hexo deploy</span></span><br><span class="line"><span class="string">	echo ----------------save to remote----------------</span></span><br><span class="line"><span class="string">	call git add -A</span></span><br><span class="line"><span class="string">	call git commit -m &quot;</span>add %var%<span class="string">&quot;</span></span><br><span class="line"><span class="string">	call git push</span></span><br><span class="line"><span class="string">) else (</span></span><br><span class="line"><span class="string">	set /p res=save to remote? y/n: </span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string">if %res% == y (</span></span><br><span class="line"><span class="string">	echo ----------------save to remote----------------</span></span><br><span class="line"><span class="string">	call git add -A</span></span><br><span class="line"><span class="string">	call git commit -m &quot;</span>add %var%<span class="string">&quot;</span></span><br><span class="line"><span class="string">	call git push</span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">set /p var=enter any key to stop:</span></span><br></pre></td></tr></table></figure>
 <p>值得注意的是，<code>call start D:\&quot;Program Files&quot;\&quot;Microsoft VS Code&quot;\Code source\_posts\%var%.md</code>这条语句是使用我本地安装的VS code来打开文件，如果使用别的编辑工具，替换即可。如果是linux下创建的项目，可参考步骤去写对应的shell脚本，shell的教程可比bat的完善很多。</p>
-<p>就先写到这里吧，想起来再补充。。。</p>
+<h2 id="bat快捷方式"><a href="#bat快捷方式" class="headerlink" title="bat快捷方式"></a>bat快捷方式</h2><p>到目前为止每次双击bat就可以开始博客文章的撰写了，但是不能每次都去打开软件目录，再找到bat再去双击它，太麻烦了。通过快捷方式和开始菜单来打开是更高效的处理方案。但是博主发现，通过右击bat发送到桌面快捷方式的方案，图标不仅很丑，而且无法固定到开始菜单，这里记录一下解决方案。步骤如下：</p>
+<ol>
+<li>在桌面空白位置右击，选择新建，选择快捷方式。</li>
+<li>在弹出的窗口中，填写位置内容：<code>cmd /c &quot;你的bat文件路径&quot;</code>，替换成真实的路径，如<code> cmd /c &quot;D:\Documents\Blog\hexo\Blog Hexo.bat&quot;</code>。然后点击下一步。</li>
+<li>输入快捷方式的名称，名字随便起，博主起的是<code>Blog Hexo</code>。点击完成。</li>
+<li>右击创建好的快捷方式，修改起始位置的路径为bat文件所在目录，对应第2点的路径应该是：<code>D:\Documents\Blog\hexo\</code>。先不要着急点确定。</li>
+<li>点击更改图标，修改输入框中的内容，改为<code>%SystemRoot%\System32\</code>。点击浏览，选择 SHELL32.dll 文件（文件夹内容很多耐心寻找，或者通过英文输入法直接键入可以快速定位到文件），找到文件后打开，然后在图表中选择一个觉得好看的，然后点击确定即可。最后还有属性页面也要点击确定。</li>
+<li>右击快捷方式，选择固定到开始屏幕。注意：只有按照上述步骤操作下来的才有“固定到开始屏幕”的选项。</li>
+</ol>
+<p>至此，快捷方式创建完毕。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/07/hello-world/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yang Zhao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/07/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-04-07 14:00:00" itemprop="dateCreated datePublished" datetime="2023-04-07T14:00:00+08:00">2023-04-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-03 11:07:59" itemprop="dateModified" datetime="2023-05-03T11:07:59+08:00">2023-05-03</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 
       
     </div>
@@ -596,7 +866,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

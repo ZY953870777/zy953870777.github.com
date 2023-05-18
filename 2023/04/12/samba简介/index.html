@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Samba是实现了SMB协议的一个免费软件，由服务器及客户端程序构成。SMB（Server Messages Block，信息服务块）是一种在局域网上共享文件和打印机的一种通信协议，它为局域网内的不同计算机之间提供文件及打印机等资源的共享服务。本篇文章就简单介绍一下samba服务器和客户端的搭建。 Linux环境安装服务Ubuntu: sudo apt-get install samba samb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="samba简介">
+<meta property="og:url" content="http://example.com/2023/04/12/samba%E7%AE%80%E4%BB%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Samba是实现了SMB协议的一个免费软件，由服务器及客户端程序构成。SMB（Server Messages Block，信息服务块）是一种在局域网上共享文件和打印机的一种通信协议，它为局域网内的不同计算机之间提供文件及打印机等资源的共享服务。本篇文章就简单介绍一下samba服务器和客户端的搭建。 Linux环境安装服务Ubuntu: sudo apt-get install samba samb">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-04-12T08:10:49.000Z">
+<meta property="article:modified_time" content="2023-05-03T03:07:59.365Z">
+<meta property="article:author" content="Yang Zhao">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/04/12/samba%E7%AE%80%E4%BB%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>samba简介 | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/12/samba%E7%AE%80%E4%BB%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yang Zhao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          samba简介
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-04-12 16:10:49" itemprop="dateCreated datePublished" datetime="2023-04-12T16:10:49+08:00">2023-04-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-03 11:07:59" itemprop="dateModified" datetime="2023-05-03T11:07:59+08:00">2023-05-03</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Samba是实现了SMB协议的一个免费软件，由服务器及客户端程序构成。SMB（Server Messages Block，信息服务块）是一种在局域网上共享文件和打印机的一种通信协议，它为局域网内的不同计算机之间提供文件及打印机等资源的共享服务。本篇文章就简单介绍一下samba服务器和客户端的搭建。</p>
+<h1 id="Linux环境"><a href="#Linux环境" class="headerlink" title="Linux环境"></a>Linux环境</h1><h2 id="安装服务"><a href="#安装服务" class="headerlink" title="安装服务"></a>安装服务</h2><p>Ubuntu: <code>sudo apt-get install samba samba-common</code><br>Centos: <code>yum install samba -y</code></p>
+<h2 id="添加samba用户和配置密码"><a href="#添加samba用户和配置密码" class="headerlink" title="添加samba用户和配置密码"></a>添加samba用户和配置密码</h2><p>通过<code>sudo smbpasswd -a username</code>添加samba用户，并且设置密码。其中username必须是系统中已经存在的用户。如果不执行此命令，该用户则不算是samba用户。如果该用户已经是samba用户了，通过该条指令即可修改samba访问的密码。这里设置的密码需要记住，后面客户端访问时需要使用此密码。</p>
+<h2 id="配置服务"><a href="#配置服务" class="headerlink" title="配置服务"></a>配置服务</h2><p>打开 /etc/samba/smb.conf: <code>vim /etc/samba/smb.conf</code>, 在文件最后追加以下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[label]</span><br><span class="line">   path=/home/test/</span><br><span class="line">   public=no</span><br><span class="line">   read only=no</span><br><span class="line">   writable=yes</span><br><span class="line">   valid users=username</span><br><span class="line">   browsable=yes</span><br><span class="line">   create mask = 0664</span><br></pre></td></tr></table></figure>
+<p>部分参数的含义如下：</p>
+<ul>
+<li>label：这个label就是其它机器需要访问这个samba服务时的一个标记，随便起都可以。</li>
+<li>path：指示需要被共享的文件夹。</li>
+<li>public：是否公开。如果公开，局域网内的其它设备可在网上邻居发现这个文件夹，否则只能通过ip地址+label来访问。</li>
+<li>read only：分享的文件是否为只读权限。</li>
+<li>writable：目录下是否可以写入。</li>
+<li>valid users：表示哪些用户可以访问到这个文件夹，这里要填写真实的系统用户名。</li>
+</ul>
+<p>我们的计算机默认是VeriSilicon域，因此我们将工作组定义为VeriSilicon。我们公司的计算机现在默认使用NTLM级别的LAN Manager进行身份验证，但是Samba服务器版本4.5以上的NTLM身份验证参数的默认值是“no”。可能导致用户名密码验证错误。因此，在global下，我们修改和配置以下参数。</p>
+<h2 id="重启服务"><a href="#重启服务" class="headerlink" title="重启服务"></a>重启服务</h2><p>每次修改了配置文件，需要重启服务才能使配置生效。通过命令：<code>sudo service smbd restart</code>来重启samba的服务。</p>
+<h2 id="samba客户端连接-挂载服务"><a href="#samba客户端连接-挂载服务" class="headerlink" title="samba客户端连接/挂载服务"></a>samba客户端连接/挂载服务</h2><p>连接需要借助samba的客户端smbclient，安装：<br>Ubuntu: <code>sudo apt install smbclient</code><br>Centos: <code>sudo yum install samba-client</code></p>
+<p>安装完成后，通过以下命令访问samba服务器共享的资源：<br><code>smbclient //192.168.121.118/label -U zysgdsg</code><br>其中，“192.168.121.118”是搭建samba服务器的IP地址，label是samba服务器配置的标记，zysgdsg是上面创建的samba用户。键入后回车，会提示输入密码，密码就是上面设置的samba用户对应的密码。看到以下提示符，代表连接成功：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Try &quot;help&quot; to get a list of possible commands.</span><br><span class="line">smb: \&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如果需要将共享文件挂载在当前系统的目录下，如同访问本系统下的文件，则需要借助cifs-utils工具，安装命令：<br>Ubuntu: <code>sudo apt install cifs-utils</code><br>Centos: <code>sudo yum install cifs-utils</code></p>
+<p>通过如下命令既可以将服务器共享文件挂载在当前系统目录：<br><code>sudo mount -t cifs //192.168.121.118/label /mnt/smbmount -o username=zysgdsg,password=123123,vers=1.0</code><br>其中，“192.168.121.118”是搭建samba服务器的IP地址，label是samba服务器配置的标记，/mnt/smbmount是本系统上的一个空白目录（建议新建一个示例的目录，通过文件夹名称可以看出这个目录下是什么内容），zysgdsg是上面创建的samba用户。123123就是上面设置的samba用户对应的密码。<br>挂载成功后，就可以在/mnt/smbmount/下看到共享的文件了。</p>
+<h1 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h1><h2 id="服务开启"><a href="#服务开启" class="headerlink" title="服务开启"></a>服务开启</h2><p>Windows下的samba也是系统自带的功能，但是windows默认时将其关闭的，我们打开它即可。它的打开位置为：<br><code>控制面板-&gt;程序-&gt;启用或关闭Windows功能</code><br>在弹出的窗口中，找到以下内容将其全部勾选：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SMB 1.0/CIFS 文件共享支持</span><br><span class="line">   SMB 1.0/CIFS 服务器</span><br><span class="line">   SMB 1.0/CIFS 客户端</span><br><span class="line">   SMB 1.0/CIFS 自动删除</span><br><span class="line">SMB 直通</span><br></pre></td></tr></table></figure>
+<p>最后点击确定，系统提示可能需要重启，点击确定重启系统。</p>
+<h2 id="开启网络共享"><a href="#开启网络共享" class="headerlink" title="开启网络共享"></a>开启网络共享</h2><p>通过如下路径打开设置页面：<br><code>控制面板 -&gt;网络和 Internet -&gt; 网络和共享中心-&gt;(在左侧)更改高级共享设置</code><br>勾选以下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">网络发现下的：</span><br><span class="line">启动网络发现</span><br><span class="line">   启动网络连接设备的自动设置</span><br><span class="line">文件和打印机共享下的：</span><br><span class="line">启动文件和打印机共享</span><br></pre></td></tr></table></figure>
+
+<h2 id="添加samba账户"><a href="#添加samba账户" class="headerlink" title="添加samba账户"></a>添加samba账户</h2><p>右击 此电脑-&gt;管理-&gt;本地用户和组-&gt;右击 用户-&gt;新用户<br>在新弹出的窗口中设置用户名，密码和确认密码。勾选上用户不能更改密码，密码永不过期。最后点击创建即可。</p>
+<h2 id="设置samba共享文件夹"><a href="#设置samba共享文件夹" class="headerlink" title="设置samba共享文件夹"></a>设置samba共享文件夹</h2><p>步骤如下：</p>
+<ol>
+<li>右击 此电脑-&gt;管理-&gt;共享文件夹-&gt;右击 共享-&gt;新建共享</li>
+<li>选择要的文件夹的路径</li>
+<li>设置共享的名称（访问时需要使用此名称连接）</li>
+<li>设置权限，选择自定义。进来后点击里面默认的everyone选项，选择删除。</li>
+<li>添加刚刚新建的samba账户，权限根据自己的需求来勾选。最后点击确定。</li>
+</ol>
+<p>至此，samba共享文件夹建立完成。</p>
+<h2 id="客户端连接-挂载服务"><a href="#客户端连接-挂载服务" class="headerlink" title="客户端连接/挂载服务"></a>客户端连接/挂载服务</h2><p>在局域网的另外一台PC上，双击此电脑，在地址栏键入网址<code>\\192.168.2.100\smb</code>访问（其中192.168.2.100是搭建samba服务器主机的IP地址，smb是访问的label），系统会弹出输入账号密码的对话框，输入上面创建的samba用户的用户名和密码即可成功访问。<br>但是这里有特殊情况会发生，系统没有弹出输入账号密码的提示，取而代之的是没有权限的提示，这可能与系统设置有关。没关系，有解决方案，既然系统不弹出，那么我们就提前准备好用户名密码，供访问时使用，操作步骤如下：<br><code>控制面板-&gt;用户帐户-&gt;凭据管理器-&gt;添加Windows凭据</code><br>在新弹出的页面上，我们分别填入：</p>
+<ul>
+<li>Internet地址或网络地址： <code>\\192.168.2.100\smb</code>（其中192.168.2.100是搭建samba服务器主机的IP地址，smb是访问的label）。</li>
+<li>用户名：面创建的samba用户的用户名</li>
+<li>密码：上面创建的samba用户的密码</li>
+</ul>
+<p>点击确定。再通过双击此电脑，在地址栏键入网址<code>\\192.168.2.100\smb</code>访问（其中192.168.2.100是搭建samba服务器主机的IP地址，smb是访问的label），就可以免密码直接访问到共享文件夹。</p>
+<p>还有一种方案，可以将共享文件夹虚拟成一块磁盘，挂载在此电脑上。操作步骤如下：<br><code>打开 此电脑-&gt;右击 （在左侧栏）网络-&gt;映射网络驱动器(N)...</code></p>
+<ul>
+<li>在弹出的窗口中选择驱动器盘符，可以选择靠后的盘符（例如Z），以免影响移动硬盘或者U盘的盘符。</li>
+<li>键入文件夹，填写：<code>\\192.168.2.100\smb</code>, （其中192.168.2.100是搭建samba服务器主机的IP地址，smb是访问的label）。</li>
+<li>勾选上登录时重新连接(R)并且点击完成。</li>
+<li>在弹出的对话框中分别键入上面创建的samba用户的用户名和密码，勾选记住我的凭据，点击确定。</li>
+</ul>
+<p>若以上操作无误，那么就会在此电脑中看到多出了一个Z（上面选择的盘符）盘。在Z盘中就是共享文件夹内的内容了。</p>
+<h2 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h2><p>有人说win10的samba比较慢，是因为win10 系统设置的原因。不光samba，连ftp也慢。可以用命令修改。命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">netsh int tcp set global autotuninglevel=restricted</span><br><span class="line">netsh interface tcp set heuristics disabled</span><br></pre></td></tr></table></figure>
+
+<h1 id="移动端和TV端"><a href="#移动端和TV端" class="headerlink" title="移动端和TV端"></a>移动端和TV端</h1><p>首先，要强调的一点是，samba是跨平台的，无论samba的服务器是搭建在Ubuntu还是Centos抑或是Windows，在其他的平台都可以通过samba的客户端进行访问或者挂载。</p>
+<p>还要注意的是，客户端必须和服务器在同一局域网内，这个非常重要，之所以在这里提出来是需要注意，在路由器的连接方式不同的影响下，有可能造成手机连接的WIFI和电脑的网线不在同一局域网下，就无法正常访问。判断是否为同一局域网的方式也很简单，分别查看两个端的IP地址，如果IP地址的前三个数字都是一致的，那么就代表在同一网络下，如果只有前两位或者更少的数字相同，那就不在同一局域网。</p>
+<p>如果需要在移动端和TV端能够高效的访问，建议samba服务选择public，这样访问起来很方便，如果是在比较私密的网络环境内。</p>
+<h2 id="手机端"><a href="#手机端" class="headerlink" title="手机端"></a>手机端</h2><p>一般手机自带的文件管理器就包含了类似网络邻居的功能，我们进去后就可以看到我们共享的文件夹了，选择之后会提示输入用户名密码，就匹配samba用户的用户名密码即可。如果我们没有启用public，那么稍微麻烦一些，点击添加设备，输入主机的IP地址，输入用户名密码，勾选自动登录，最后点击确定，就可以看到共享的文件了。</p>
+<p>如果手机的文件管理没有网络邻居的功能，那么在手机上下载一个es文件浏览器，就可以连接了，连接方式与上面大同小异。</p>
+<h2 id="TV端"><a href="#TV端" class="headerlink" title="TV端"></a>TV端</h2><p>TV端一般连接上无非就是看视频等操作了，一般TV操作系统带的文件管理器也是可以看到类似网络的选项的，操作方式也是类似的。如果没有，也可以借助es文件浏览器，或者当贝播放器，kodi播放器等支持局域网播放的软件。连接方式和手机的方式几乎是一样。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/04/12/markdown%E8%AF%AD%E6%B3%95%E7%AE%80%E4%BB%8B/" rel="prev" title="markdown语法简介">
+      <i class="fa fa-chevron-left"></i> markdown语法简介
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux%E7%8E%AF%E5%A2%83"><span class="nav-number">1.</span> <span class="nav-text">Linux环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%9C%8D%E5%8A%A1"><span class="nav-number">1.1.</span> <span class="nav-text">安装服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0samba%E7%94%A8%E6%88%B7%E5%92%8C%E9%85%8D%E7%BD%AE%E5%AF%86%E7%A0%81"><span class="nav-number">1.2.</span> <span class="nav-text">添加samba用户和配置密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1"><span class="nav-number">1.3.</span> <span class="nav-text">配置服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%90%AF%E6%9C%8D%E5%8A%A1"><span class="nav-number">1.4.</span> <span class="nav-text">重启服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#samba%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5-%E6%8C%82%E8%BD%BD%E6%9C%8D%E5%8A%A1"><span class="nav-number">1.5.</span> <span class="nav-text">samba客户端连接&#x2F;挂载服务</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Windows"><span class="nav-number">2.</span> <span class="nav-text">Windows</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%90%AF"><span class="nav-number">2.1.</span> <span class="nav-text">服务开启</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%90%AF%E7%BD%91%E7%BB%9C%E5%85%B1%E4%BA%AB"><span class="nav-number">2.2.</span> <span class="nav-text">开启网络共享</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0samba%E8%B4%A6%E6%88%B7"><span class="nav-number">2.3.</span> <span class="nav-text">添加samba账户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AEsamba%E5%85%B1%E4%BA%AB%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="nav-number">2.4.</span> <span class="nav-text">设置samba共享文件夹</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5-%E6%8C%82%E8%BD%BD%E6%9C%8D%E5%8A%A1"><span class="nav-number">2.5.</span> <span class="nav-text">客户端连接&#x2F;挂载服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.6.</span> <span class="nav-text">存在的问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%92%8CTV%E7%AB%AF"><span class="nav-number">3.</span> <span class="nav-text">移动端和TV端</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%8B%E6%9C%BA%E7%AB%AF"><span class="nav-number">3.1.</span> <span class="nav-text">手机端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TV%E7%AB%AF"><span class="nav-number">3.2.</span> <span class="nav-text">TV端</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yang Zhao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yang Zhao</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
