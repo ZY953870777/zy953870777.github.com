@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Kodi 简介Kodi（以前称为XBMC）是一个免费的开放源代码媒体播放器软件应用程序，由XBMC基金会（一家非营利技术联盟）开发。 Kodi可用于多种操作系统和硬件平台，它允许用户播放和查看大多数流媒体，如来自Internet的视频，音乐，播客和视频，以及来自本地和网络存储媒体的所有常见数字媒体文件。 传送门：  Kodi官方网站 Kodi下载页面 Kodi Github  Kodi 安装打开k">
+<meta property="og:type" content="article">
+<meta property="og:title" content="玩转Kodi">
+<meta property="og:url" content="http://example.com/2023/05/23/%E7%8E%A9%E8%BD%ACKodi/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Kodi 简介Kodi（以前称为XBMC）是一个免费的开放源代码媒体播放器软件应用程序，由XBMC基金会（一家非营利技术联盟）开发。 Kodi可用于多种操作系统和硬件平台，它允许用户播放和查看大多数流媒体，如来自Internet的视频，音乐，播客和视频，以及来自本地和网络存储媒体的所有常见数字媒体文件。 传送门：  Kodi官方网站 Kodi下载页面 Kodi Github  Kodi 安装打开k">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-23T04:09:16.000Z">
+<meta property="article:modified_time" content="2023-05-28T16:42:30.714Z">
+<meta property="article:author" content="Yang Zhao">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/05/23/%E7%8E%A9%E8%BD%ACKodi/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>玩转Kodi | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/23/%E7%8E%A9%E8%BD%ACKodi/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yang Zhao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          玩转Kodi
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-23 12:09:16" itemprop="dateCreated datePublished" datetime="2023-05-23T12:09:16+08:00">2023-05-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-29 00:42:30" itemprop="dateModified" datetime="2023-05-29T00:42:30+08:00">2023-05-29</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Kodi-简介"><a href="#Kodi-简介" class="headerlink" title="Kodi 简介"></a>Kodi 简介</h1><p>Kodi（以前称为XBMC）是一个免费的开放源代码媒体播放器软件应用程序，由XBMC基金会（一家非营利技术联盟）开发。 Kodi可用于多种操作系统和硬件平台，它允许用户播放和查看大多数流媒体，如来自Internet的视频，音乐，播客和视频，以及来自本地和网络存储媒体的所有常见数字媒体文件。</p>
+<p>传送门：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://kodi.tv/">Kodi官方网站</a></li>
+<li><a target="_blank" rel="noopener" href="https://kodi.tv/download/">Kodi下载页面</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/xbmc">Kodi Github</a></li>
+</ul>
+<h1 id="Kodi-安装"><a href="#Kodi-安装" class="headerlink" title="Kodi 安装"></a>Kodi 安装</h1><p>打开kodi的下载页面，可以看到它支持多种平台：Windows，Linux，Android，Raspberry Pi，macOS，iOS，tvOS。由于苹果系统的封闭性，导致在苹果的操作系统上安装软件非常复杂，Kodi下载页面提供了非常详细的安装步骤，条件允许的情况下可以照着步骤尝试操作。Windows和Android下，都是常规步骤。</p>
+<h1 id="中文设置"><a href="#中文设置" class="headerlink" title="中文设置"></a>中文设置</h1><h2 id="默认皮肤切换中文"><a href="#默认皮肤切换中文" class="headerlink" title="默认皮肤切换中文"></a>默认皮肤切换中文</h2><ol>
+<li>在kodi的主页面，找到并且点击页面左上方的设置图标。</li>
+<li>在新的页面找到并点击 <code>Interface</code>。</li>
+<li>在Skin下点击 <code>Fonts</code>，在弹窗中，找到并点击 <code>Arial based</code>，自动关闭窗口。</li>
+<li>在Regional下点击 <code>Languages</code>，在弹窗中选择 <code>Chinese(Simple)</code>。</li>
+</ol>
+<p>至此，页面显示为中文。需要注意的是，Kodi的大部分皮肤插件中没有<code>Arial based</code>会导致整个页面乱码，更换皮肤显示中文的方案待完善。</p>
+<h2 id="切换皮肤插件并显示中文"><a href="#切换皮肤插件并显示中文" class="headerlink" title="切换皮肤插件并显示中文"></a>切换皮肤插件并显示中文</h2><p>待完善</p>
+<h1 id="添加视频数据"><a href="#添加视频数据" class="headerlink" title="添加视频数据"></a>添加视频数据</h1><p>通过设置一个视频源来使Kodi对其进行扫描，添加到软件中。</p>
+<h2 id="添加本地视频"><a href="#添加本地视频" class="headerlink" title="添加本地视频"></a>添加本地视频</h2><p>按照如下方式添加：<br><code>视频（Videos）-&gt;文件（Files）-&gt;添加视频（add videos）-&gt;浏览（Browse）-&gt;[选择存放文件的位置]-&gt;设置文件类型[电影/剧集/无]</code><br>添加成功后，就可以在kodi中打开并观看视频了，如果剧集和电影分别设置了文件夹，就可以从对应的（电影/剧集）入口观看了。<br>如果需要在对应的板块展示海报墙，见下方的内容。</p>
+<h2 id="添局域网视频"><a href="#添局域网视频" class="headerlink" title="添局域网视频"></a>添局域网视频</h2><p>按照如下方式添加：<br><code>视频（Videos）-&gt;文件（Files）-&gt;添加视频（add videos）-&gt;浏览（Browse）-&gt;添加网络位置（Add network location）-&gt;[键入服务器名称（IP地址）、用户名和密码]-&gt;[选择刚刚添加的位置]-&gt;设置文件类型[电影/剧集/无]</code><br>添加成功后，就可以在kodi中打开并观看视频了，如果剧集和电影分别设置了文件夹，就可以从对应的（电影/剧集）入口观看了。<br>如果需要在对应的板块展示海报墙，见下方的内容。</p>
+<h2 id="添加互联网视频"><a href="#添加互联网视频" class="headerlink" title="添加互联网视频"></a>添加互联网视频</h2><p>待完善</p>
+<h1 id="海报墙"><a href="#海报墙" class="headerlink" title="海报墙"></a>海报墙</h1><p>Kodi内置并且默认使用<code>The Movie Database Python</code>来削刮电影和剧集海报，但是有时候会存在削刮不到的情况，需要手动配置海报和简介等信息。当需要手动削刮视频信息时，需要配置电影/剧集的内容，设置信息提供者为<code>Local information only</code>。</p>
+<h2 id="电影海报墙"><a href="#电影海报墙" class="headerlink" title="电影海报墙"></a>电影海报墙</h2><p>要想正确的显示本地的海报墙，电影的目录结构应该如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">电影</span><br><span class="line">  复仇者联盟（电影1名称）</span><br><span class="line">    复仇者联盟-poster.jpg(海报)</span><br><span class="line">    复仇者联盟.ass（与文件夹同名字幕）</span><br><span class="line">    复仇者联盟.mkv（与文件夹同名视频文件）</span><br><span class="line">    复仇者联盟.nfo（与文件夹同名摘要）</span><br><span class="line">  正义联盟（电影2名称）</span><br><span class="line">    正义联盟-poster.jpg(海报)</span><br><span class="line">    正义联盟.ass（与文件夹同名字幕）</span><br><span class="line">    正义联盟.mkv（与文件夹同名视频文件）</span><br><span class="line">    正义联盟.nfo（与文件夹同名摘要）</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+
+<p>其中海报可以从<a target="_blank" rel="noopener" href="https://www.themoviedb.org/">TMDB</a>下载，并且按照格式命名。<br>字幕可以从<a target="_blank" rel="noopener" href="https://zimuku.org/">字幕库</a>，<a target="_blank" rel="noopener" href="https://subhd.tv/">SUB字幕</a>等平台下载。<br>movie.nfo主要包含电影名称即可。需要注意的是，如果要使用中文，movie.nfo必须保存为UTF-8格式，否则会乱码。以下为最精简的movie.nfo：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;</span><br><span class="line">&lt;movie&gt;</span><br><span class="line">  &lt;title&gt;XX&lt;/title&gt;</span><br><span class="line">&lt;/movie&gt;</span><br></pre></td></tr></table></figure>
+
+<p>为了方便操作，尤其是编辑movie.nfo，还需要注意编码格式，可以使用批处理命令来实现一些功能。movie.bat：</p>
+<figure class="highlight plaintext"><figcaption><span>off</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">setlocal EnableDelayedExpansion</span><br><span class="line"></span><br><span class="line">:: 获取文件夹名称作为电影名</span><br><span class="line">set curf=%~p0%</span><br><span class="line">set curf=%curf:~0,-1%</span><br><span class="line">:getfolder</span><br><span class="line">FOR /F &quot;tokens=1,* delims=\/&quot; %%i in (&quot;%curf%&quot;) do (</span><br><span class="line">    if not &quot;%%j&quot;==&quot;&quot; (</span><br><span class="line">        set curf=%%j</span><br><span class="line">        goto getfolder</span><br><span class="line">    )</span><br><span class="line">)</span><br><span class="line">set episode_name=%curf%</span><br><span class="line"></span><br><span class="line">::判断海报文件（poster.jpg）是否存在</span><br><span class="line">if exist poster.jpg (</span><br><span class="line">	echo &quot;poster.jpg exist&quot;</span><br><span class="line">	copy /y &quot;poster.jpg&quot; &quot;%episode_name%-poster.jpg&quot;</span><br><span class="line">) else (</span><br><span class="line">	echo &quot;poster.jpg don&#x27;t exist&quot;</span><br><span class="line">	set /p var=enter any key to stop:</span><br><span class="line">	exit</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">::重命名视频名称，拷贝.nfo模板文件并且更改其内容</span><br><span class="line">for %%a in (*.mkv *.avi *.mp4 *.mpg *.m2ts *.m4v *.mov  *.rm  *.rmvb  *.flv  *.wmv) do (</span><br><span class="line">	echo %%~a</span><br><span class="line">	copy /y &quot;D:\Documents\tools\movie.nfo&quot; &quot;%episode_name%.nfo&quot;</span><br><span class="line">	call powershell -command &quot;(type &#x27;%episode_name%.nfo&#x27; -Encoding UTF8) -replace (&#x27;XX&#x27;,&#x27;%episode_name%&#x27;)|out-file -Encoding utf8 %episode_name%.nfo&quot;</span><br><span class="line">	move &quot;%%~a&quot; &quot;!episode_name!%%~xa&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">set /p var=enter any key to stop:</span><br></pre></td></tr></table></figure>
+
+<h2 id="剧集海报墙"><a href="#剧集海报墙" class="headerlink" title="剧集海报墙"></a>剧集海报墙</h2><p>要想正确的显示本地的海报墙，电影的目录结构应该如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">电视剧</span><br><span class="line">  闪电侠（剧集1名称）</span><br><span class="line">    Season 1</span><br><span class="line">      S01E01.ass(第一季第一集字幕)</span><br><span class="line">      S01E01.mkv(第一季第一集视频)</span><br><span class="line">      S01E01.nfo(第一季第一集简介)</span><br><span class="line">      S01E01-thumb.jpg(第一季第一集海报)</span><br><span class="line">      S01E02.ass</span><br><span class="line">      S01E02.mkv</span><br><span class="line">      S01E02.nfo</span><br><span class="line">      S01E02-thumb.jpg</span><br><span class="line">      ...</span><br><span class="line">      S01E023.ass(第一季第二十三集字幕)</span><br><span class="line">      S01E023.mkv(第一季第二十三集视频)</span><br><span class="line">      S01E023.nfo(第一季第二十三集简介)</span><br><span class="line">      S01E023-thumb.jpg(第一季第二十三集海报)</span><br><span class="line">    Season 2</span><br><span class="line">    ...</span><br><span class="line">    Season 9</span><br><span class="line">      S09E01.ass(第九季第一集字幕)</span><br><span class="line">      S09E01.mkv(第九季第一集视频)</span><br><span class="line">      S09E01.nfo(第九季第一集简介)</span><br><span class="line">      S09E01-thumb.jpg(第九季第一集海报)</span><br><span class="line">      S09E02.ass</span><br><span class="line">      S09E02.mkv</span><br><span class="line">      S09E02.nfo</span><br><span class="line">      S09E02-thumb.jpg</span><br><span class="line">      ...</span><br><span class="line">      S09E013.ass</span><br><span class="line">      S09E013.mkv</span><br><span class="line">      S09E013.nfo</span><br><span class="line">      S09E013-thumb.jpg</span><br><span class="line">    poster.jpg（剧集海报）</span><br><span class="line">    tvshow.nfo（剧集摘要）</span><br><span class="line">  甄嬛传（剧集2名称）</span><br><span class="line">    Season 1</span><br><span class="line">      S01E01.mp4(第一集视频)</span><br><span class="line">      S01E01.nfo(第一集简介)</span><br><span class="line">      S01E01-thumb.jpg(第一集海报)</span><br><span class="line">      S01E02.mp4(第二集视频)</span><br><span class="line">      S01E02.nfo(第二集简介)</span><br><span class="line">      S01E02-thumb.jpg(第二集海报)</span><br><span class="line">      ...</span><br><span class="line">      S01E076.mp4(第七十六集视频)</span><br><span class="line">      S01E076.nfo(第七十六集简介)</span><br><span class="line">      S01E076-thumb.jpg(第七十六集海报)</span><br><span class="line">    poster.jpg（剧集海报）</span><br><span class="line">    tvshow.nfo（剧集摘要）</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+
+<p>tvshow.nfo主要包含剧集名称即可。需要注意的是，如果要使用中文，tvshow.nfo必须保存为UTF-8格式，否则会乱码。以下为最精简的tvshow.nfo：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;</span><br><span class="line">&lt;tvshow&gt;</span><br><span class="line">  &lt;title&gt;XX&lt;/title&gt;</span><br><span class="line">&lt;/tvshow&gt;</span><br></pre></td></tr></table></figure>
+
+<p>SXXEXX.nfo主要包含剧集介绍。同样，SXXEXX.nfo如果要使用中文则必须保存为UTF-8格式，否则会乱码。以下为最精简的SXXEXX.nfo：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;</span><br><span class="line">&lt;episodedetails&gt;</span><br><span class="line">  &lt;title&gt;甄嬛传第01集&lt;/title&gt;</span><br><span class="line">&lt;/episodedetails&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>为了方便操作，尤其是编辑各种nfo，还需要注意编码格式，可以使用批处理命令来实现一些功能。tv.bat：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">setlocal EnableDelayedExpansion</span><br><span class="line"></span><br><span class="line">:: 获取文件夹名称作为剧集名称</span><br><span class="line">set curf=%~p0%</span><br><span class="line">set curf=%curf:~0,-1%</span><br><span class="line">:getfolder</span><br><span class="line">FOR /F &quot;tokens=1,* delims=\/&quot; %%i in (&quot;%curf%&quot;) do (</span><br><span class="line">    if not &quot;%%j&quot;==&quot;&quot; (</span><br><span class="line">        set curf=%%j</span><br><span class="line">        goto getfolder</span><br><span class="line">    )</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">set episode_name=%curf%</span><br><span class="line">echo 剧集名字：%episode_name%</span><br><span class="line"></span><br><span class="line">:: 判断海报文件是否存在</span><br><span class="line">if exist poster.jpg (</span><br><span class="line">	echo &quot;poster.jpg exist&quot;</span><br><span class="line">) else (</span><br><span class="line">	echo &quot;poster.jpg exist&quot;</span><br><span class="line">	set /p var=enter any key to stop:</span><br><span class="line">	exit</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">:: 输入第几季内容</span><br><span class="line">set /p season=第几季:</span><br><span class="line"></span><br><span class="line">:: 获取tvshow.nfo模板并且替换文件内容</span><br><span class="line">copy /y &quot;D:\Documents\tools\tvshow.nfo&quot; &quot;tvshow.nfo&quot;</span><br><span class="line">call powershell -command &quot;(type &#x27;tvshow.nfo&#x27; -Encoding UTF8) -replace (&#x27;XX&#x27;,&#x27;%episode_name%&#x27;)|out-file -Encoding utf8 tvshow.nfo&quot;</span><br><span class="line"></span><br><span class="line">:: 创建Season文件夹</span><br><span class="line">set num=1000</span><br><span class="line">set floder_name=Season %season%</span><br><span class="line">md &quot;%floder_name%&quot;</span><br><span class="line"></span><br><span class="line">:: 为每一集设置.nfo文件，海报文件，并且规范视频名称。</span><br><span class="line">for %%a in (*.mkv *.avi *.mp4 *.mpg *.m2ts *.m4v *.mov  *.rm  *.rmvb  *.flv  *.wmv) do (</span><br><span class="line">	echo %%~a</span><br><span class="line">	set /a num+=1</span><br><span class="line">	set sub_name=S0%season%E!num:~-2!</span><br><span class="line">	copy /y poster.jpg !sub_name!-thumb.jpg</span><br><span class="line">	copy /y tvshow.nfo !sub_name!.nfo</span><br><span class="line">	call powershell -command &quot;(type &#x27;!sub_name!.nfo&#x27; -Encoding UTF8) -replace (&#x27;tvshow&#x27;,&#x27;episodedetails&#x27;)|out-file -Encoding utf8 !sub_name!.nfo&quot;</span><br><span class="line">	call powershell -command &quot;(type &#x27;!sub_name!.nfo&#x27; -Encoding UTF8) -replace (&#x27;%episode_name%&#x27;,&#x27;%episode_name%第!num:~-2!集&#x27;)|out-file -Encoding utf8 !sub_name!.nfo&quot;</span><br><span class="line">	move &quot;%%~a&quot; &quot;%floder_name%\!sub_name!%%~xa&quot;</span><br><span class="line">	move &quot;!sub_name!-thumb.jpg&quot; &quot;%floder_name%\&quot;</span><br><span class="line">	move &quot;!sub_name!.nfo&quot; &quot;%floder_name%\&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">set /p var=enter any key to stop:</span><br></pre></td></tr></table></figure>
+
+<p>附上一个小工具，有时候下载到的剧集内容文件夹结构比较复杂（例如每一集在一个单独的文件夹中），可以通过脚本将其全部拷贝出来，tv_reset.bat：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">setlocal EnableDelayedExpansion</span><br><span class="line"></span><br><span class="line">set num=1000</span><br><span class="line">for /r %%a in (*.mkv *.avi *.mp4 *.mpg *.m2ts *.m4v *.mov  *.rm  *.rmvb  *.flv  *.wmv) do (</span><br><span class="line">	echo %%~a</span><br><span class="line">	set /a num+=1</span><br><span class="line">	move &quot;%%~a&quot; &quot;!num:~-2!%%~xa&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">set /p var=enter any key to stop:</span><br></pre></td></tr></table></figure>
+
+<h1 id="局域网内多端同步"><a href="#局域网内多端同步" class="headerlink" title="局域网内多端同步"></a>局域网内多端同步</h1><p>默认情况下，多台Kodi机器不会彼此识别。在一台电视上观看的剧集不会在另一台电视上显示为“观看”。 我们可以通过MySQL数据库来实现多端的数据同步功能，观看记录等信息都会在多客户端之间同步保存。</p>
+<h2 id="安装Mysql"><a href="#安装Mysql" class="headerlink" title="安装Mysql"></a>安装Mysql</h2><p>使用局域网内或者公网上电脑（服务器）安装一个MySQL，建议版本为5.7。安装方式比较简单，网上的操作步骤有很多，请自行百度安装。</p>
+<h2 id="配置Mysql"><a href="#配置Mysql" class="headerlink" title="配置Mysql"></a>配置Mysql</h2><p>Mysql安装好了之后，进入到MySQL的命令行，输入以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER &#x27;kodi&#x27; IDENTIFIED BY &#x27;kodi&#x27;;</span><br><span class="line">GRANT ALL ON *.* TO &#x27;kodi&#x27;;</span><br><span class="line">flush privileges;</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
+<p>以上命令创建了新的MySQL用户和密码，设置了用户的访问方式为允许所有访问。此外还需要确保服务器的3306端口是开放的，以管理员身份打开powershell，并且输入以下命令来开启3306端口：<br><code>New-NetFirewallRule -DisplayName &quot;Allow inbound TCP Port 3306 for MySQL&quot; -Direction inbound –LocalPort 3306 -Protocol TCP -Action Allow</code></p>
+<h2 id="备份Kodi"><a href="#备份Kodi" class="headerlink" title="备份Kodi"></a>备份Kodi</h2><p>默认情况下，Kodi使用内部SQLite数据库。 为了使Kodi能够在您的家庭网络中有效地进行通信，需要指示它使用外部MySQL数据库。不过在此之前，需要将当前Kodi的配置从SQLite中备份下来。配置路径在专家（expert）模式：<br><code>设置（Settings）-&gt;媒体（Media）-&gt;资料库（Library）-&gt;导出资料库（Export library）</code><br>可以将库导出为单个文件或多个文件。 单个文件选项是将备份放在一个位置，而多个文件会将多余的JPG和NFO文件分散到媒体文件夹中，这很混乱（不建议）。选择需要保存到的路径并记住这个路径，稍后导入时需要。</p>
+<h2 id="Kodi使用MySQL"><a href="#Kodi使用MySQL" class="headerlink" title="Kodi使用MySQL"></a>Kodi使用MySQL</h2><p>为了将Kodi指向MySQL，需要编辑Kodi的advancedsettings.xml文件。默认情况下，此文件不存在。但是如果存在advancedsettings.xml文件，则文件将位于以下位置：</p>
+<ul>
+<li>Windows: C:\Users[username]\AppData\Roaming\Kodi\userdata</li>
+<li>Linux and other Live versions of Kodi: $HOME/.kodi/userdata</li>
+<li>macOS: /Users/[username]/Library/Application Support/Kodi/userdata</li>
+<li>Android: /data/org.xbmc.kodi/files/.kodi/userdata/ (In some Android setups the path may be slightly different to the one stated above.)</li>
+<li>tvOS: /private/var/mobile/Library/Preferences/Kodi/userdata/</li>
+</ul>
+<p>更多的操作系统可以参考<a target="_blank" rel="noopener" href="https://kodi.wiki/view/Userdata">官方wiki</a></p>
+<p>检查对应的文件夹是否有Advancedsettings.xml文件，有就用文本编辑器打开它，没有则打开一个文本编辑器创建它。将以下文本添加到文件中(请注意：如果您的advancedsettings.xml文件中已经有一些条目，请保留这些条目并将其放在正确的部分)：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;advancedsettings&gt;</span><br><span class="line">  &lt;videodatabase&gt;</span><br><span class="line">    &lt;type&gt;mysql&lt;/type&gt;</span><br><span class="line">    &lt;host&gt;192.168.1.2&lt;/host&gt;</span><br><span class="line">    &lt;port&gt;3306&lt;/port&gt;</span><br><span class="line">    &lt;user&gt;kodi&lt;/user&gt;</span><br><span class="line">    &lt;pass&gt;kodi&lt;/pass&gt;</span><br><span class="line">  &lt;/videodatabase&gt; </span><br><span class="line">  &lt;musicdatabase&gt;</span><br><span class="line">    &lt;type&gt;mysql&lt;/type&gt;</span><br><span class="line">    &lt;host&gt;192.168.1.2&lt;/host&gt;</span><br><span class="line">    &lt;port&gt;3306&lt;/port&gt;</span><br><span class="line">    &lt;user&gt;kodi&lt;/user&gt;</span><br><span class="line">    &lt;pass&gt;kodi&lt;/pass&gt;</span><br><span class="line">  &lt;/musicdatabase&gt;</span><br><span class="line">  &lt;videolibrary&gt;</span><br><span class="line">    &lt;importwatchedstate&gt;true&lt;/importwatchedstate&gt;</span><br><span class="line">    &lt;importresumepoint&gt;true&lt;/importresumepoint&gt;</span><br><span class="line">  &lt;/videolibrary&gt;</span><br><span class="line">&lt;/advancedsettings&gt;</span><br></pre></td></tr></table></figure>
+<p>注意上述配置文件，192.168.1.2是MySQL所在服务器的IP地址，3306是MySQL的端口号，kodi分别是用户名和密码。</p>
+<p>重新打开Kodi软件，此时，软件中的视频和音乐信息应该都是空的才对（因为新的数据库中还没有建立数据）。将刚才导出的数据重新导入进来：<br><code>设置（Settings）-&gt;媒体（Media）-&gt;资料库（Library）-&gt;导入资料库（Import library）</code><br>选择刚刚导出时选择的文件夹，找到kodi导出的数据，确定。数据将会重新被导入到新的MySQL中，此时在MySQL的表中应该会有：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">myvideos107</span><br><span class="line">mymusic60</span><br></pre></td></tr></table></figure>
+<p>两个新的数据库，分别保存了视频和音频的数据信息。</p>
+<p>对于其他的机器，只需要重复本步骤，既可以所有的设备使用同一套Kodi数据，进而实现多端的数据/进度等信息的同步。</p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>如果Mysql安装在SMB的服务器上，那么Kodi添加视频的时候一定记得不要使用本地视频作为源，和其他平台一样，设置SMB链接，通过SMB链接添加视频源。否则会导致其他客户端找不到视频位置。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/04/14/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="prev" title="frp内网穿透">
+      <i class="fa fa-chevron-left"></i> frp内网穿透
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kodi-%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">Kodi 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Kodi-%E5%AE%89%E8%A3%85"><span class="nav-number">2.</span> <span class="nav-text">Kodi 安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%AD%E6%96%87%E8%AE%BE%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">中文设置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E7%9A%AE%E8%82%A4%E5%88%87%E6%8D%A2%E4%B8%AD%E6%96%87"><span class="nav-number">3.1.</span> <span class="nav-text">默认皮肤切换中文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%87%E6%8D%A2%E7%9A%AE%E8%82%A4%E6%8F%92%E4%BB%B6%E5%B9%B6%E6%98%BE%E7%A4%BA%E4%B8%AD%E6%96%87"><span class="nav-number">3.2.</span> <span class="nav-text">切换皮肤插件并显示中文</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%A7%86%E9%A2%91%E6%95%B0%E6%8D%AE"><span class="nav-number">4.</span> <span class="nav-text">添加视频数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E6%9C%AC%E5%9C%B0%E8%A7%86%E9%A2%91"><span class="nav-number">4.1.</span> <span class="nav-text">添加本地视频</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%B1%80%E5%9F%9F%E7%BD%91%E8%A7%86%E9%A2%91"><span class="nav-number">4.2.</span> <span class="nav-text">添局域网视频</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E4%BA%92%E8%81%94%E7%BD%91%E8%A7%86%E9%A2%91"><span class="nav-number">4.3.</span> <span class="nav-text">添加互联网视频</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%B7%E6%8A%A5%E5%A2%99"><span class="nav-number">5.</span> <span class="nav-text">海报墙</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%B5%E5%BD%B1%E6%B5%B7%E6%8A%A5%E5%A2%99"><span class="nav-number">5.1.</span> <span class="nav-text">电影海报墙</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%A7%E9%9B%86%E6%B5%B7%E6%8A%A5%E5%A2%99"><span class="nav-number">5.2.</span> <span class="nav-text">剧集海报墙</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B1%80%E5%9F%9F%E7%BD%91%E5%86%85%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5"><span class="nav-number">6.</span> <span class="nav-text">局域网内多端同步</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Mysql"><span class="nav-number">6.1.</span> <span class="nav-text">安装Mysql</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEMysql"><span class="nav-number">6.2.</span> <span class="nav-text">配置Mysql</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%87%E4%BB%BDKodi"><span class="nav-number">6.3.</span> <span class="nav-text">备份Kodi</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kodi%E4%BD%BF%E7%94%A8MySQL"><span class="nav-number">6.4.</span> <span class="nav-text">Kodi使用MySQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">6.5.</span> <span class="nav-text">注意事项</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Yang Zhao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yang Zhao</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
